@@ -45,6 +45,12 @@
             <artifactId>twilio</artifactId>
             <version>8.15.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>3.2.2</version>
+        </dependency>
 
     </dependencies>
 

@@ -7,3 +7,9 @@ server:
 weather_app:
   url: ${weatherAppUrl}
   city: ${cityToGetWeather}
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: smsManager
