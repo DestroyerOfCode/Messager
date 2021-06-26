@@ -4,3 +4,6 @@ twilio:
   trial_number: ${trialNumber} # your trial number
 server:
   port: 8081
+weather_app:
+  url: ${weatherAppUrl}
+  city: ${cityToGetWeather}

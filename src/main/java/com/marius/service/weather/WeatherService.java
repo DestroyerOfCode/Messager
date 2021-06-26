@@ -12,7 +12,8 @@ import java.util.*;
 @Service
 public class WeatherService {
 
-    private static final String URL = "https://tvoje-pocasie-api.herokuapp.com/weather/current/retrieve/fromDb";
+    private static final String BASEURL = System.getenv("weatherAppUrl");
+    private static final String RETRIEVEURL = "weather/current/retrieve/fromDb";
     private final RestTemplate restTemplate;
     private final MapToWeatherDTOConverter weatherDTOConverter;
 
@@ -22,21 +23,8 @@ public class WeatherService {
     }
 
     public Optional<WeatherDTO> getCurrentWeather() {
-        Map<String, Object> requestBody = new HashMap<String, Object>(){{
-            put("filters", new HashMap<String, Object>(){{
-                put("name", new HashMap<String, Object>() {{
-                    put("$eq", "Nitra");
-                }});
-//                put("country", new HashMap<String, Object>(){{
-//                    put("in", List.of("SK"));
-//                }});
-            }});
-            put("isAscending", Boolean.TRUE);
-            put("sortBy", "name");
-            put("itemsPerPage", 100);
-            put("pageNumber", 0);
-        }};
-        ResponseEntity<Map> responseEntity = restTemplate.exchange(URL,
+        Map<String, Object> requestBody = createRequestBody();
+        ResponseEntity<Map> responseEntity = restTemplate.exchange(BASEURL + RETRIEVEURL,
                 HttpMethod.POST,
                 setOpenWeatherApiHeaders(requestBody),
                 Map.class
@@ -47,10 +35,26 @@ public class WeatherService {
         return Optional.ofNullable(weatherDTO);
     }
 
-    HttpEntity<Map<String, Object>> setOpenWeatherApiHeaders(Map<String, Object> requestBody) {
+    private HttpEntity<Map<String, Object>> setOpenWeatherApiHeaders(Map<String, Object> requestBody) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(requestBody, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
         return entity;
+    }
+
+    private Map<String, Object> createRequestBody() {
+        Map<String, Object> requestBody = new HashMap<>(){{
+            put("filters", new HashMap<String, Object>(){{
+                put("name", new HashMap<String, Object>() {{
+                    put("$eq", System.getenv("cityToGetWeather"));
+                }});
+            }});
+            put("isAscending", Boolean.TRUE);
+            put("sortBy", "name");
+            put("itemsPerPage", 100);
+            put("pageNumber", 0);
+        }};
+
+        return requestBody;
     }
 }

@@ -1,5 +1,6 @@
 package com.marius.service;
 
+import com.marius.businesslogic.WeatherLogic;
 import com.marius.config.TwilioConfig;
 import com.marius.dto.WeatherDTO;
 import com.marius.service.weather.WeatherService;
@@ -21,11 +22,13 @@ public class TwilioSmsSender implements SmsSender {
 
     private final TwilioConfig twilioConfig;
     private final WeatherService weatherService;
+    private final WeatherLogic weatherLogic;
 
     @Autowired
-    public TwilioSmsSender(TwilioConfig twilioConfig, WeatherService weatherService) {
+    public TwilioSmsSender(TwilioConfig twilioConfig, WeatherService weatherService, WeatherLogic weatherLogic) {
         this.twilioConfig = twilioConfig;
         this.weatherService = weatherService;
+        this.weatherLogic = weatherLogic;
     }
 
     @Override
@@ -34,8 +37,13 @@ public class TwilioSmsSender implements SmsSender {
             PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
             PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
             Optional<WeatherDTO> weatherDTO = weatherService.getCurrentWeather();
-            MessageCreator creator = Message.creator(to, from, weatherDTO.toString());
-            creator.create();
+
+            weatherDTO.ifPresentOrElse((weather) -> {
+                MessageCreator creator = Message.creator(to, from, weatherLogic.createMessageOfSmsToSend(weather));
+                creator.create();
+            },
+                    () -> new RuntimeException());
+
             LOGGER.info("Send sms {}", smsRequest);
         } else {
             throw new IllegalArgumentException(

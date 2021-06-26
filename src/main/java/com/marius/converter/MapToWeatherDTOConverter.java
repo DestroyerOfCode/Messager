@@ -8,8 +8,15 @@ import java.util.Map;
 @Component
 public class MapToWeatherDTOConverter {
 
+    private final KelvinToCelsiusConverter kelvinToCelsiusConverter;
+
+    public MapToWeatherDTOConverter(KelvinToCelsiusConverter kelvinToCelsiusConverter) {
+        this.kelvinToCelsiusConverter = kelvinToCelsiusConverter;
+    }
+
     public void mapToWeatherDTO(Map<String, Object> weatherMap, WeatherDTO dto) {
         dto.setCityName((String) weatherMap.get("name"));
-        dto.setTemperature((Double) ((Map<String, Object>) weatherMap.get("weatherMain")).get("temp"));
+        Double kelvins = (Double) ((Map<String, Object>) weatherMap.get("weatherMain")).get("temp");
+        dto.setTemperature(kelvinToCelsiusConverter.convertKelvinToCelsius(kelvins));
     }
 }
