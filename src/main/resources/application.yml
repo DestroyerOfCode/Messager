@@ -1,0 +1,6 @@
+twilio:
+  account_sid: ${accountSid} #your account sid
+  auth_token: ${authToken} #your auth token
+  trial_number: ${trialNumber} # your trial number
+server:
+  port: 8081
