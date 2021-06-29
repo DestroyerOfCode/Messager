@@ -42,9 +42,11 @@ public class TwilioSmsSender implements SmsSender {
                 MessageCreator creator = Message.creator(to, from, weatherLogic.createMessageOfSmsToSend(weather));
                 creator.create();
             },
-                    () -> new RuntimeException());
+                    () -> {
+                        throw new RuntimeException();
+                    });
 
-            LOGGER.info("Send sms {}", smsRequest);
+            LOGGER.info("Sent sms {}", smsRequest);
         } else {
             throw new IllegalArgumentException(
                     String.format( "Phone number [%s] is not a valid number", smsRequest.getPhoneNumber())

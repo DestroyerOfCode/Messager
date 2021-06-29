@@ -26,5 +26,7 @@ public class User {
     private String cityName;
     @NotBlank
     private String phoneNumber;
+
+    private Boolean sendMessage;
 }
 
