@@ -7,10 +7,12 @@ import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Component
 @Document(value = "user")
 @Getter
 @Setter
@@ -24,6 +26,10 @@ public class User {
 
     @NotBlank
     private String cityName;
+
+    @NotBlank
+    private String userName;
+
     @NotBlank
     private String phoneNumber;
 
