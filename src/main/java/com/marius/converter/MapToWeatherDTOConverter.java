@@ -19,4 +19,11 @@ public class MapToWeatherDTOConverter {
         Double kelvins = (Double) ((Map<String, Object>) weatherMap.get("weatherMain")).get("temp");
         dto.setTemperature(kelvinToCelsiusConverter.convertKelvinToCelsius(kelvins));
     }
+    public WeatherDTO mapToWeatherDTO(Map<String, Object> weatherMap) {
+        WeatherDTO dto = new WeatherDTO();
+        dto.setCityName((String) weatherMap.get("name"));
+        Double kelvins = (Double) ((Map<String, Object>) weatherMap.get("weatherMain")).get("temp");
+        dto.setTemperature(kelvinToCelsiusConverter.convertKelvinToCelsius(kelvins));
+        return dto;
+    }
 }

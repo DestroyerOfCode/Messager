@@ -2,7 +2,9 @@ package com.marius.service;
 
 import com.marius.businesslogic.WeatherLogic;
 import com.marius.config.TwilioConfig;
+import com.marius.dto.UserDTO;
 import com.marius.dto.WeatherDTO;
+import com.marius.service.user.UserService;
 import com.marius.service.weather.WeatherService;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.api.v2010.account.MessageCreator;
@@ -13,7 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service("twilio")
 public class TwilioSmsSender implements SmsSender {
@@ -22,13 +25,16 @@ public class TwilioSmsSender implements SmsSender {
 
     private final TwilioConfig twilioConfig;
     private final WeatherService weatherService;
+    private final UserService userService;
     private final WeatherLogic weatherLogic;
 
     @Autowired
-    public TwilioSmsSender(TwilioConfig twilioConfig, WeatherService weatherService, WeatherLogic weatherLogic) {
+    public TwilioSmsSender(TwilioConfig twilioConfig, WeatherService weatherService, WeatherLogic weatherLogic,
+                           UserService userService) {
         this.twilioConfig = twilioConfig;
         this.weatherService = weatherService;
         this.weatherLogic = weatherLogic;
+        this.userService = userService;
     }
 
     @Override
@@ -36,15 +42,21 @@ public class TwilioSmsSender implements SmsSender {
         if (isPhoneNumberValid(smsRequest.getPhoneNumber())) {
             PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
             PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
-            Optional<WeatherDTO> weatherDTO = weatherService.getCurrentWeather();
 
-            weatherDTO.ifPresentOrElse((weather) -> {
-                MessageCreator creator = Message.creator(to, from, weatherLogic.createMessageOfSmsToSend(weather));
-                creator.create();
-            },
-                    () -> {
-                        throw new RuntimeException();
-                    });
+            List<WeatherDTO> weatherDTO = weatherService.getCurrentWeather();
+            List<UserDTO> users = userService.getUsers();
+
+            users.forEach((user) -> {
+                try {
+                    WeatherDTO weather = weatherDTO.stream().filter((w) -> w.getCityName().equals(user.getCityName()) &&
+                            user.getSendMessage()).findFirst().orElseThrow();
+                    MessageCreator creator = Message.creator(to, from, weatherLogic.createMessageOfSmsToSend(weather));
+                    creator.create();
+                } catch (NoSuchElementException e) {
+                    LOGGER.error("user not found", e);
+                }
+            });
+
 
             LOGGER.info("Sent sms {}", smsRequest);
         } else {

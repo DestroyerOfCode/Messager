@@ -2,17 +2,17 @@ package com.marius.service.weather;
 
 import com.marius.converter.MapToWeatherDTOConverter;
 import com.marius.dto.WeatherDTO;
-import com.marius.service.SmsService;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class WeatherService {
 
-    private static final String BASEURL = System.getenv("weatherAppUrl");
+    private static final String BASEURL = System.getenv("WEATHER_APP_URL");
     private static final String RETRIEVEURL = "weather/current/retrieve/fromDb";
     private final RestTemplate restTemplate;
     private final MapToWeatherDTOConverter weatherDTOConverter;
@@ -22,17 +22,16 @@ public class WeatherService {
         this.weatherDTOConverter = weatherDTOConverter;
     }
 
-    public Optional<WeatherDTO> getCurrentWeather() {
+    public List<WeatherDTO> getCurrentWeather() {
         Map<String, Object> requestBody = createRequestBody();
         ResponseEntity<Map> responseEntity = restTemplate.exchange(BASEURL + RETRIEVEURL,
                 HttpMethod.POST,
                 setOpenWeatherApiHeaders(requestBody),
                 Map.class
         );
-        WeatherDTO weatherDTO = new WeatherDTO();
-        weatherDTOConverter.mapToWeatherDTO((Map) ((ArrayList) responseEntity.getBody().get("content")).get(0), weatherDTO);
+        List<Map<String, Object>> weatherDTOList =  (List) ((List) (responseEntity.getBody()).get("content"));
+        return weatherDTOList.stream().map(weatherDTOConverter::mapToWeatherDTO).collect(Collectors.toList());
 
-        return Optional.ofNullable(weatherDTO);
     }
 
     private HttpEntity<Map<String, Object>> setOpenWeatherApiHeaders(Map<String, Object> requestBody) {
@@ -44,11 +43,7 @@ public class WeatherService {
 
     private Map<String, Object> createRequestBody() {
         Map<String, Object> requestBody = new HashMap<>(){{
-            put("filters", new HashMap<String, Object>(){{
-                put("name", new HashMap<String, Object>() {{
-                    put("$eq", "Nitra");
-                }});
-            }});
+            put("filters", new HashMap<String, Object>());
             put("isAscending", Boolean.TRUE);
             put("sortBy", "name");
             put("itemsPerPage", 100);

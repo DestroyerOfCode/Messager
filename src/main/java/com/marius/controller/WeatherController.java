@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/weather", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -22,8 +22,10 @@ public class WeatherController {
     }
 
     @GetMapping(value = "/current")
-    public ResponseEntity<WeatherDTO> getCurrentWeather() {
-        Optional<WeatherDTO> weatherDTOOptional = weatherService.getCurrentWeather();
-        return new ResponseEntity<>(weatherDTOOptional.orElseThrow(RuntimeException::new), HttpStatus.OK);
+    public ResponseEntity<List<WeatherDTO>> getCurrentWeather() {
+        List<WeatherDTO> weathersDtoList = weatherService.getCurrentWeather();
+        if (weathersDtoList != null && !weathersDtoList.isEmpty())
+            return new ResponseEntity<>(weathersDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(weathersDtoList, HttpStatus.NOT_FOUND);
     }
 }
