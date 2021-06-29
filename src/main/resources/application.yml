@@ -1,12 +1,11 @@
 twilio:
-  account_sid: ${accountSid} #your account sid
-  auth_token: ${authToken} #your auth token
-  trial_number: ${trialNumber} # your trial number
+  account_sid: ${ACCOUNT_SID} #your account sid
+  auth_token: ${AUTH_TOKEN} #your auth token
+  trial_number: ${TRIAL_NUMBER} # your trial number
 server:
   port: 8081
 weather_app:
-  url: ${weatherAppUrl}
-  city: ${cityToGetWeather}
+  url: ${WEATHER_APP_URL}
 spring:
   data:
     mongodb:

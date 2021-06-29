@@ -46,7 +46,7 @@ public class WeatherService {
         Map<String, Object> requestBody = new HashMap<>(){{
             put("filters", new HashMap<String, Object>(){{
                 put("name", new HashMap<String, Object>() {{
-                    put("$eq", System.getenv("cityToGetWeather"));
+                    put("$eq", "Nitra");
                 }});
             }});
             put("isAscending", Boolean.TRUE);
