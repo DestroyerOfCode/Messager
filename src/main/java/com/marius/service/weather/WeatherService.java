@@ -1,7 +1,7 @@
 package com.marius.service.weather;
 
-import com.marius.converter.MapToWeatherDTOConverter;
-import com.marius.dto.WeatherDTO;
+import com.marius.converter.weather.MapToWeatherDTOConverter;
+import com.marius.dto.weather.WeatherDTO;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

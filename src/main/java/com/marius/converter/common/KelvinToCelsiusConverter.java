@@ -1,4 +1,4 @@
-package com.marius.converter;
+package com.marius.converter.common;
 
 import org.springframework.stereotype.Component;
 

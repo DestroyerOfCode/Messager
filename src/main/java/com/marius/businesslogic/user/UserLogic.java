@@ -1,9 +1,9 @@
 package com.marius.businesslogic.user;
 
 import com.marius.converter.user.UserToUserDtoConverter;
-import com.marius.dto.UserDTO;
-import com.marius.model.User;
-import com.marius.model.repository.UserRepository;
+import com.marius.dto.user.UserDTO;
+import com.marius.model.domain.user.User;
+import com.marius.model.repository.user.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

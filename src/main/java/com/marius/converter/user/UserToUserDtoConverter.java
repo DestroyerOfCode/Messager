@@ -1,8 +1,8 @@
 package com.marius.converter.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marius.dto.UserDTO;
-import com.marius.model.User;
+import com.marius.dto.user.UserDTO;
+import com.marius.model.domain.user.User;
 import org.springframework.stereotype.Component;
 
 @Component

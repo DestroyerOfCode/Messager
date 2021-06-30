@@ -1,6 +1,7 @@
-package com.marius.converter;
+package com.marius.converter.weather;
 
-import com.marius.dto.WeatherDTO;
+import com.marius.converter.common.KelvinToCelsiusConverter;
+import com.marius.dto.weather.WeatherDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

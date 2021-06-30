@@ -1,11 +1,10 @@
-package com.marius.businesslogic;
+package com.marius.businesslogic.weather;
 
-import com.marius.dto.WeatherDTO;
+import com.marius.dto.weather.WeatherDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 @Component
 public class WeatherLogic {

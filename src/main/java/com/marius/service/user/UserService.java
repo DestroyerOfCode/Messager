@@ -1,8 +1,8 @@
 package com.marius.service.user;
 
 import com.marius.businesslogic.user.UserLogic;
-import com.marius.dto.UserDTO;
-import com.marius.model.User;
+import com.marius.dto.user.UserDTO;
+import com.marius.model.domain.user.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

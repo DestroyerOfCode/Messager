@@ -1,15 +1,15 @@
-package com.marius.service;
+package com.marius.service.message;
 
-import com.marius.businesslogic.WeatherLogic;
+import com.marius.businesslogic.weather.WeatherLogic;
 import com.marius.config.TwilioConfig;
-import com.marius.dto.UserDTO;
-import com.marius.dto.WeatherDTO;
+import com.marius.dto.user.UserDTO;
+import com.marius.dto.weather.WeatherDTO;
 import com.marius.service.user.UserService;
 import com.marius.service.weather.WeatherService;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.type.PhoneNumber;
-import com.marius.dto.SmsRequestDTO;
+import com.marius.dto.message.SmsRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

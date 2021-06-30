@@ -1,7 +1,7 @@
-package com.marius.controller;
+package com.marius.controller.message;
 
-import com.marius.service.SmsService;
-import com.marius.dto.SmsRequestDTO;
+import com.marius.service.message.SmsService;
+import com.marius.dto.message.SmsRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

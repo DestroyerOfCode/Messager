@@ -1,4 +1,4 @@
-package com.marius.dto;
+package com.marius.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

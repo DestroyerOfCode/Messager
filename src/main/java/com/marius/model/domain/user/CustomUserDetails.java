@@ -1,4 +1,4 @@
-package com.marius.model;
+package com.marius.model.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;

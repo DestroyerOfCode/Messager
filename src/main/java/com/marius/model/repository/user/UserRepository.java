@@ -1,6 +1,6 @@
-package com.marius.model.repository;
+package com.marius.model.repository.user;
 
-import com.marius.model.User;
+import com.marius.model.domain.user.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

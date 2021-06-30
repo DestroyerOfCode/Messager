@@ -1,6 +1,6 @@
-package com.marius.service;
+package com.marius.service.message;
 
-import com.marius.dto.SmsRequestDTO;
+import com.marius.dto.message.SmsRequestDTO;
 import org.springframework.stereotype.Service;
 
 @Service

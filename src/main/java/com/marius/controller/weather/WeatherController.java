@@ -1,6 +1,6 @@
-package com.marius.controller;
+package com.marius.controller.weather;
 
-import com.marius.dto.WeatherDTO;
+import com.marius.dto.weather.WeatherDTO;
 import com.marius.service.weather.WeatherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

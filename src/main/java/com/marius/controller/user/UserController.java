@@ -1,8 +1,8 @@
-package com.marius.controller;
+package com.marius.controller.user;
 
 import com.marius.converter.user.UserToUserDtoConverter;
-import com.marius.dto.UserDTO;
-import com.marius.model.User;
+import com.marius.dto.user.UserDTO;
+import com.marius.model.domain.user.User;
 import com.marius.service.user.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
