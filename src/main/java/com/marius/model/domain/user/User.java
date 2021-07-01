@@ -31,6 +31,9 @@ public class User {
     private String userName;
 
     @NotBlank
+    private String userPassword;
+
+    @NotBlank
     private String phoneNumber;
 
     private Boolean sendMessage;
