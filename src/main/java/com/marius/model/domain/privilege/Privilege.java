@@ -1,4 +1,4 @@
-package com.marius.model.domain.user;
+package com.marius.model.domain.privilege;
 
 import com.marius.model.domain.role.Role;
 import lombok.AllArgsConstructor;
@@ -11,36 +11,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
+import java.util.UUID;
 
 @Component
-@Document(value = "user")
+@Document(value = "privilege")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Privilege {
 
     @Id
-    @NotNull(message = "The value id must be NOT null and hence must be set!")
     private ObjectId _id;
 
     @NotBlank
-    private String cityName;
-
-    @NotBlank
-    private String userName;
-
-    @NotBlank
-    private String userPassword;
-
-    @NotBlank
-    private String phoneNumber;
-
-    private Boolean sendMessage;
-
-    private Set<Role> roles;
+    private String name;
 
 }
-
