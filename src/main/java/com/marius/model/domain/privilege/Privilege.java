@@ -23,6 +23,6 @@ public class Privilege {
     private ObjectId _id;
 
     @NotBlank
-    private String name;
+    private PrivilegeEnum name;
 
 }

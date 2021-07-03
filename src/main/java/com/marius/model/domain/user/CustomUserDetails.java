@@ -67,11 +67,11 @@ public class CustomUserDetails implements UserDetails {
         List<String> privileges = new ArrayList<>();
         List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
-            privileges.add(role.getName());
+            privileges.add(role.getName().name());
             collection.addAll(role.getPrivileges());
         }
         for (Privilege item : collection) {
-            privileges.add(item.getName());
+            privileges.add(item.getName().name());
         }
         return privileges;
     }

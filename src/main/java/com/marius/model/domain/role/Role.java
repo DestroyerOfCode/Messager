@@ -25,6 +25,6 @@ public class Role {
     private ObjectId _id;
 
     @NotBlank
-    private String name;
+    private RoleEnum name;
     private Set<Privilege> privileges;
 }

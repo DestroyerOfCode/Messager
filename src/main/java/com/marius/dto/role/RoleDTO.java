@@ -2,6 +2,7 @@ package com.marius.dto.role;
 
 
 import com.marius.dto.privilege.PrivilegeDTO;
+import com.marius.model.domain.role.RoleEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,6 @@ import java.util.Set;
 public class RoleDTO {
 
     private ObjectId _id;
-    private String name;
+    private RoleEnum name;
     private Set<PrivilegeDTO> privileges;
 }
