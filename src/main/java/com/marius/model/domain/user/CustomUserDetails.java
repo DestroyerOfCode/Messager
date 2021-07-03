@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Setter
@@ -76,10 +77,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
-        }
-        return authorities;
+        return privileges.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 }

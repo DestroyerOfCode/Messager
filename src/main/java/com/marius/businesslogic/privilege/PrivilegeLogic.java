@@ -1,6 +1,5 @@
 package com.marius.businesslogic.privilege;
 
-import com.marius.controller.privilege.PrivilegeController;
 import com.marius.converter.privilege.PrivilegeConverter;
 import com.marius.dto.privilege.PrivilegeDTO;
 import com.marius.model.domain.privilege.Privilege;
