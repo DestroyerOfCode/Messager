@@ -2,12 +2,14 @@ package com.marius.service.user;
 
 import com.marius.businesslogic.user.UserLogic;
 import com.marius.dto.user.UserDTO;
+import com.marius.model.domain.user.CustomUserDetails;
 import com.marius.model.domain.user.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -30,5 +32,9 @@ public class UserService {
 
     public UserDTO createUser(UserDTO dto) {
         return userLogic.createUser(dto);
+    }
+
+    public CustomUserDetails login(Map<String, String> credentials) {
+        return userLogic.login(credentials);
     }
 }
