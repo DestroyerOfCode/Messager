@@ -4,6 +4,7 @@ import com.marius.service.user.CustomUserDetailsService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,17 +34,20 @@ public class SpringWebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/**")
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
+        http.csrf().disable()
+                .authorizeRequests().antMatchers("/user/auth/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .and()
-                .csrf().disable()
 //        .authorizeRequests().antMatchers("/**").permitAll().and().csrf().disable()
         ;
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean
