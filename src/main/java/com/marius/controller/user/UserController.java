@@ -1,8 +1,8 @@
 package com.marius.controller.user;
 
 import com.marius.converter.user.UserToUserDtoConverter;
+import com.marius.dto.jwt.JwtResponse;
 import com.marius.dto.user.UserDTO;
-import com.marius.model.domain.user.CustomUserDetails;
 import com.marius.model.domain.user.User;
 import com.marius.service.user.UserService;
 import org.bson.types.ObjectId;
@@ -46,6 +46,13 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping(value = "/{userName}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getUser(@PathVariable(value = "userName") String userName) {
+        Optional<User> userOptional = userService.getUserByUserName(userName);
+        return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.FOUND))
+                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping(value = "/auth/create")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto) {
         UserDTO createdUserDto = userService.createUser(dto);
@@ -58,12 +65,12 @@ public class UserController {
      *                    "userName": "xxx",
      *                    "password": "xxx"
      * }
-     * @return logged in user
+     * @return logged in user & jwt
      */
     @PostMapping(value = "/auth/login")
-    public ResponseEntity<CustomUserDetails> login(@RequestBody Map<String, String> credentials) {
-        CustomUserDetails userDetails = userService.login(credentials);
-        return ResponseEntity.ok(userDetails);
+    public ResponseEntity<JwtResponse> login(@RequestBody Map<String, String> credentials) {
+        JwtResponse response = userService.login(credentials);
+        return ResponseEntity.ok(response);
     }
 
 

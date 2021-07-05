@@ -1,8 +1,8 @@
 package com.marius.service.user;
 
 import com.marius.businesslogic.user.UserLogic;
+import com.marius.dto.jwt.JwtResponse;
 import com.marius.dto.user.UserDTO;
-import com.marius.model.domain.user.CustomUserDetails;
 import com.marius.model.domain.user.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,15 @@ public class UserService {
         return userLogic.getUser(userId);
     }
 
+    public Optional<User> getUserByUserName(String userName) {
+        return userLogic.getUserByUserName(userName);
+    }
+
     public UserDTO createUser(UserDTO dto) {
         return userLogic.createUser(dto);
     }
 
-    public CustomUserDetails login(Map<String, String> credentials) {
+    public JwtResponse login(Map<String, String> credentials) {
         return userLogic.login(credentials);
     }
 }

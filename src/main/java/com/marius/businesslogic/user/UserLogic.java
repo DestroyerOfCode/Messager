@@ -1,10 +1,12 @@
 package com.marius.businesslogic.user;
 
 import com.marius.converter.user.UserToUserDtoConverter;
+import com.marius.dto.jwt.JwtResponse;
 import com.marius.dto.user.UserDTO;
 import com.marius.model.domain.user.CustomUserDetails;
 import com.marius.model.domain.user.User;
 import com.marius.model.repository.user.UserRepository;
+import com.marius.security.jwt.JwtUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +32,18 @@ public class UserLogic {
     private final UserToUserDtoConverter converter;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
     @Autowired
     public UserLogic(UserRepository userRepository, UserToUserDtoConverter converter,
                      AuthenticationManager authenticationManager,
-                     PasswordEncoder passwordEncoder) {
+                     PasswordEncoder passwordEncoder,
+                     JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.converter = converter;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
     }
 
     public List<UserDTO> getUsers() {
@@ -54,20 +59,39 @@ public class UserLogic {
         return userRepository.findById(userId);
     }
 
-    public UserDTO createUser(UserDTO dto) {
-        User user = converter.dtoToEntity(dto);
-        user.setUserPassword(encryptUserPassword(dto.getUserPassword()));
-        user = userRepository.insert(user);
-        return converter.entityToDto(user);
+    public Optional<User> getUserByUserName(String userName) {
+        return userRepository.getUserByUserName(userName);
     }
 
-    public CustomUserDetails login(Map<String, String> credentials) {
+    public UserDTO createUser(UserDTO dto) {
+        userRepository.getUserByUserName(dto.getUserName()).ifPresentOrElse((User presentUser) -> {
+            LOG.error("user {} already present in database. please pick another user", presentUser.getUserName());
+            throw new RuntimeException(String.format("user %s already present in database. please pick another user",
+                    presentUser.getUserName()));
+        }, () -> {
+            User user = converter.dtoToEntity(dto);
+            user.setUserPassword(encryptUserPassword(dto.getUserPassword()));
+            userRepository.insert(user);
+        });
+
+        return dto;
+    }
+
+    public JwtResponse login(Map<String, String> credentials) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(credentials.get("userName"), credentials.get("password")));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        return (CustomUserDetails) authentication.getPrincipal();
+        return JwtResponse.builder()
+                .jwt(jwt)
+                .id(userDetails.getUser().get_id())
+                .userName(userDetails.getUser().getUserName())
+                .phoneNumber(userDetails.getUser().getPhoneNumber())
+                .roles(userDetails.getUser().getRoles())
+                .build();
     }
 
     private String encryptUserPassword(String plainTextPassword) {

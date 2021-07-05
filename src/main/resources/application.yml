@@ -16,3 +16,6 @@ spring:
     user:
       name: ${ADMIN}
       password: ${ADMIN_PASSWORD}
+message_app:
+  jwtSecret: ${JWT_SECRET}
+  jwtExpirationMs: ${JWT_EXPIRATION_MS}
