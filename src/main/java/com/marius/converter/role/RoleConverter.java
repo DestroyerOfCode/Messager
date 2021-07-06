@@ -5,6 +5,7 @@ import com.marius.dto.privilege.PrivilegeDTO;
 import com.marius.dto.role.RoleDTO;
 import com.marius.model.domain.privilege.Privilege;
 import com.marius.model.domain.role.Role;
+import com.marius.model.repository.privilege.PrivilegeRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -14,9 +15,11 @@ import java.util.stream.Collectors;
 public class RoleConverter {
 
     private final PrivilegeConverter privilegeConverter;
+    private final PrivilegeRepository privilegeRepository;
 
-    public RoleConverter(PrivilegeConverter privilegeConverter) {
+    public RoleConverter(PrivilegeConverter privilegeConverter, PrivilegeRepository privilegeRepository) {
         this.privilegeConverter = privilegeConverter;
+        this.privilegeRepository = privilegeRepository;
     }
 
     public Role dtoToEntity(RoleDTO dto) {
@@ -26,7 +29,9 @@ public class RoleConverter {
         role.set_id(dto.get_id());
 
         Set<Privilege> privileges = dto.getPrivileges().stream()
-                .map(privilegeConverter::dtoToEntity)
+                .map((PrivilegeDTO privilegeDto) -> privilegeRepository.findPrivilegeByName(privilegeDto.getName())
+                        .orElseThrow()
+                )
                 .collect(Collectors.toSet());
 
         role.setPrivileges(privileges);
