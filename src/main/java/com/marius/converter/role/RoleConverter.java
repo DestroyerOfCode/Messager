@@ -8,6 +8,8 @@ import com.marius.model.domain.role.Role;
 import com.marius.model.repository.privilege.PrivilegeRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,9 +46,11 @@ public class RoleConverter {
 
         dto.setName(role.getName());
         dto.set_id(role.get_id());
-        Set<PrivilegeDTO> privileges = role.getPrivileges().stream()
+
+        Set<PrivilegeDTO> privileges = Optional.of(role.getPrivileges().stream()
                 .map(privilegeConverter::entityToDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet()))
+                .orElse(new HashSet<>());
 
         dto.setPrivileges(privileges);
 
