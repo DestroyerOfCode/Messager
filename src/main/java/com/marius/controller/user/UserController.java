@@ -5,7 +5,6 @@ import com.marius.dto.jwt.JwtResponse;
 import com.marius.dto.user.UserDTO;
 import com.marius.model.domain.user.User;
 import com.marius.service.user.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,15 +38,15 @@ public class UserController {
         return  new ResponseEntity<>(users, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> getUser(@PathVariable(value = "userId") ObjectId userId) {
+    @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getUserById(@PathVariable(value = "userId") String userId) {
         Optional<User> userOptional = userService.getUser(userId);
         return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.FOUND))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping(value = "/{userName}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> getUser(@PathVariable(value = "userName") String userName) {
+    public ResponseEntity<UserDTO> getUserByName(@PathVariable(value = "userName") String userName) {
         Optional<User> userOptional = userService.getUserByUserName(userName);
         return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.FOUND))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
@@ -57,6 +56,13 @@ public class UserController {
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto) {
         UserDTO createdUserDto = userService.createUser(dto);
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
+    }
+
+    @PatchMapping(value = "/{userName}")
+    public ResponseEntity<UserDTO> patchUser(@RequestBody Map<String, Object> patchValues,
+                                              @PathVariable("userName") String userName) {
+        UserDTO patchedUserDto = userService.patchUser(userName, patchValues);
+        return new ResponseEntity<>(patchedUserDto, HttpStatus.CREATED);
     }
 
     /***

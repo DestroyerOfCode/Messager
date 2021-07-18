@@ -1,17 +1,17 @@
 package com.marius.dto.privilege;
 
 
+import com.marius.dto.common.BaseDTO;
 import com.marius.model.domain.privilege.PrivilegeEnum;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.bson.types.ObjectId;
+import lombok.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class PrivilegeDTO {
+@Builder
+public class PrivilegeDTO extends BaseDTO {
 
-    private ObjectId _id;
+    private String privilegeNumber;
     private PrivilegeEnum name;
 }

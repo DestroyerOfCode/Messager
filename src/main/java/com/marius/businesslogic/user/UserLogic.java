@@ -7,7 +7,6 @@ import com.marius.model.domain.user.CustomUserDetails;
 import com.marius.model.domain.user.User;
 import com.marius.model.repository.user.UserRepository;
 import com.marius.security.jwt.JwtUtils;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class UserLogic {
                     .collect(Collectors.toList());
     }
 
-    public Optional<User> getUser(ObjectId userId) {
+    public Optional<User> getUser(String userId) {
         return userRepository.findById(userId);
     }
 

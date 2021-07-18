@@ -1,19 +1,19 @@
 package com.marius.dto.user;
 
+import com.marius.dto.common.BaseDTO;
 import com.marius.dto.role.RoleDTO;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.bson.types.ObjectId;
+import lombok.*;
 
 import java.util.Set;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+@Builder
+public class UserDTO extends BaseDTO {
 
-    private ObjectId _id;
+    private String userNumber;
     private String cityName;
     private String phoneNumber;
     private String userPassword;

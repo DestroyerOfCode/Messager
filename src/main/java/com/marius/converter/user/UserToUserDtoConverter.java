@@ -30,6 +30,7 @@ public class UserToUserDtoConverter {
         dto.setCityName(user.getCityName());
         dto.setPhoneNumber(user.getPhoneNumber());
         dto.setSendMessage(user.getSendMessage());
+        dto.setUserNumber(user.getUserNumber());
 
         Set<RoleDTO> roles = user.getRoles().stream().map(roleConverter::entityToDto).collect(Collectors.toSet());
         dto.setRoles(roles);
@@ -44,9 +45,10 @@ public class UserToUserDtoConverter {
         user.setCityName(dto.getCityName());
         user.setPhoneNumber(dto.getPhoneNumber());
         user.setSendMessage(dto.getSendMessage());
+        user.setUserNumber(dto.getUserNumber());
 
         Set<Role> roles = dto.getRoles().stream()
-                .map((RoleDTO roleDTO) -> roleRepository.findByName(roleDTO.getName()).orElseThrow())
+                .map((RoleDTO roleDTO) -> roleRepository.findRoleByName(roleDTO.getName()).orElseThrow())
                 .collect(Collectors.toSet());
 
         user.setRoles(roles);

@@ -1,21 +1,21 @@
 package com.marius.dto.role;
 
 
+import com.marius.dto.common.BaseDTO;
 import com.marius.dto.privilege.PrivilegeDTO;
 import com.marius.model.domain.role.RoleEnum;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.bson.types.ObjectId;
+import lombok.*;
 
 import java.util.Set;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class RoleDTO {
+@Builder
+public class RoleDTO extends BaseDTO {
 
-    private ObjectId _id;
+    private String roleNumber;
     private RoleEnum name;
     private Set<PrivilegeDTO> privileges;
 }

@@ -1,18 +1,13 @@
 package com.marius.model.domain.user;
 
+import com.marius.model.domain.common.BaseEntity;
 import com.marius.model.domain.role.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Component
@@ -21,11 +16,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Builder
+public class User extends BaseEntity {
 
-    @Id
-    @NotNull(message = "The value id must be NOT null and hence must be set!")
-    private ObjectId _id;
+    private String userNumber;
 
     @NotBlank
     private String cityName;

@@ -1,0 +1,21 @@
+twilio:
+  account_sid: 1
+  auth_token: 1
+  trial_number: 1
+server:
+  port: 8081
+weather_app:
+  url: http
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: messager
+  security:
+    user:
+      name: Robert
+      password: 1234abcd
+message_app:
+  jwtSecret: 1
+  jwtExpirationMs: 3600
