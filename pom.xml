@@ -8,6 +8,15 @@
     <artifactId>sms-sender</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <developers>
+        <developer>
+            <id>marius</id>
+            <name>Marius Babkovic</name>
+            <email>mariusbabkovic9@gmail.com</email>
+            <timezone>GMT+1</timezone>
+        </developer>
+    </developers>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -52,9 +53,14 @@ public class RoleServiceTest {
         Map<String, Object> toUpdateMap = Map.of("name", roleName, "privileges", Arrays.asList(privilege));
 
         when(roleRepository.findRoleByName(role.getName())).thenReturn(Optional.of(role));
-        when(roleRepository.save(any())).thenReturn(any());
-        when(roleRepository.findById(role.get_id().toString())).thenReturn(Optional.of(role));
+        when(roleRepository.findById(any(String.class))).thenReturn(Optional.of(role));
 
+        doAnswer( invocation -> {
+           role.setCreatedOn(LocalDateTime.now());
+           role.setCreatedBy("Jozko");
+           role.set_id(null); //this is a HACK because jackson serializer bitches about it
+           return null;
+        }).when(roleRepository).save(any(Role.class));
         RoleDTO updatedRoleDTO = roleService.patchRole(roleName, toUpdateMap);
 
         Assertions.assertEquals(updatedRoleDTO.getName(), toUpdateMap.get("name"));

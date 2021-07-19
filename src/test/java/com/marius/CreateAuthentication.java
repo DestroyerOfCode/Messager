@@ -9,6 +9,7 @@ import com.marius.model.domain.role.Role;
 import com.marius.model.domain.role.RoleEnum;
 import com.marius.model.domain.user.User;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -72,7 +73,8 @@ public class CreateAuthentication {
                 .roleNumber("1234")
                 .privileges(Stream.of(createPrivilege()).collect(Collectors.toSet()))
                 .build();
-
+        role.setCreatedOn(LocalDateTime.now());
+        role.setCreatedBy("Jozef");
         return role;
     }
 
