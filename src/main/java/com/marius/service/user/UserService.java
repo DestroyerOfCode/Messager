@@ -59,4 +59,14 @@ public class UserService extends AbstractService<User, UserDTO> {
 
         throw new RuntimeException("User does Not exist");
     }
+
+    public UserDTO deleteUser(String username) {
+        Optional<User> userToDelete = userRepository.getUserByUserName(username);
+        if (userToDelete.isPresent()) {
+            UserDTO deletedUserDTO = super.delete(userToDelete.get().get_id().toString());
+            return deletedUserDTO;
+        }
+        throw new RuntimeException("User does Not exist");
+
+    }
 }

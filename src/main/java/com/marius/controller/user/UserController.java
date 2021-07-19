@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping(value = "/{userName}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUserByName(@PathVariable(value = "userName") String userName) {
         Optional<User> userOptional = userService.getUserByUserName(userName);
-        return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.FOUND))
+        return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
@@ -63,6 +63,12 @@ public class UserController {
                                               @PathVariable("userName") String userName) {
         UserDTO patchedUserDto = userService.patchUser(userName, patchValues);
         return new ResponseEntity<>(patchedUserDto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/{userName}")
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable("userName") String userName) {
+        UserDTO patchedUserDto = userService.deleteUser(userName);
+        return new ResponseEntity<>(patchedUserDto, HttpStatus.OK);
     }
 
     /***

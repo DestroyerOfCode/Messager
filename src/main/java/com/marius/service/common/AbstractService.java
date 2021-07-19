@@ -35,17 +35,36 @@ public abstract class AbstractService<Entity extends BaseEntity, DTO extends Bas
     }
 
     public DTO patch(String id, Map<String, Object> patchValues){
+        LOGGER.info("Getting entity of type {} with id: {}", entityCLass.toString(), id);
         Optional<Entity> entity = baseRepository.findById(id);
         Entity updatedEntity = null;
+
         try {
             if (entity.isPresent()) {
                 updatedEntity = entity.get();
                 mapper.updateValue(updatedEntity, patchValues);
                 baseRepository.save(updatedEntity);
+                LOGGER.info("Patched entity of type {} with id: {}", entityCLass.toString(), id);
             }
         } catch (JsonMappingException e) {
-            LOGGER.error("mnam dopici");
+            LOGGER.error("Error patching entity of type {} with id: {}", entityCLass, id);
         }
+
         return mapper.convertValue(updatedEntity, dtoClass);
+    }
+
+    public DTO delete(String id) {
+        LOGGER.info("getting entity of type {} with id: {}", entityCLass.toString(), id);
+        Optional<Entity> entity = baseRepository.findById(id);
+        Entity deletedEntity = null;
+        if (entity.isPresent()) {
+            deletedEntity = entity.get();
+            baseRepository.delete(deletedEntity);
+            LOGGER.info("deleted entity of type {} with id: {}", entityCLass.toString(), id);
+            return mapper.convertValue(deletedEntity, dtoClass);
+        }
+
+        LOGGER.error("Entity {} exists NOT", id);
+        throw new RuntimeException(String.format("Entity with id %s does NOT exist", id));
     }
 }

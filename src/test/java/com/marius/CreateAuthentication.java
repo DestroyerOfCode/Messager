@@ -27,7 +27,6 @@ public class CreateAuthentication {
                 .userNumber("123")
                 .roles(Stream.of(createRoleDTO()).collect(Collectors.toSet()))
                 .build();
-
         return userDTO;
     }
 

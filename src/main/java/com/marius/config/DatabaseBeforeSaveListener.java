@@ -20,9 +20,11 @@ public class DatabaseBeforeSaveListener extends AbstractMongoEventListener<Objec
 
         if (null != eventObject) {
             putCreatedDate(eventObject);
-            Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).ifPresent(p -> {
-                putCreatorOrUpdater(eventObject);
-            });
+
+            Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                    .ifPresent((auth) -> Optional.ofNullable(auth.getPrincipal())
+                        .ifPresent(p -> putCreatorOrUpdater(eventObject))
+                    );
         }
         super.onBeforeSave(event);
     }
