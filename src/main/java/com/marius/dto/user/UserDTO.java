@@ -19,5 +19,6 @@ public class UserDTO extends BaseDTO {
     private String userPassword;
     private String userName;
     private Boolean sendMessage;
+    private String email;
     private Set<RoleDTO> roles;
 }

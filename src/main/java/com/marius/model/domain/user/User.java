@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
@@ -21,7 +22,6 @@ public class User extends BaseEntity {
 
     private String userNumber;
 
-    @NotBlank
     private String cityName;
 
     @NotBlank
@@ -30,11 +30,13 @@ public class User extends BaseEntity {
     @NotBlank
     private String userPassword;
 
-    @NotBlank
     private String phoneNumber;
 
     private Boolean sendMessage;
 
+    @NotBlank
+    @Email
+    private String email;
     @DBRef
     private Set<Role> roles;
 

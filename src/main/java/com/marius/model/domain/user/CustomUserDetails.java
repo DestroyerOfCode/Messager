@@ -59,7 +59,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getSendMessage();
+        return true;
     }
 
     private List<String> getPrivileges(Collection<Role> roles) {

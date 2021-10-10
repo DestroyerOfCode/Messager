@@ -9,6 +9,7 @@ import com.marius.model.repository.role.RoleRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,6 +23,11 @@ public class UserToUserDtoConverter {
         this.roleRepository = roleRepository;
     }
 
+    public Stack<Integer> foo(){
+        Stack<Integer> s = new Stack<>();
+        s.push(2);
+        return s;
+    }
     public UserDTO entityToDto(User user) {
         UserDTO dto = new UserDTO();
         dto.setUserName(user.getUserName());
@@ -31,6 +37,7 @@ public class UserToUserDtoConverter {
         dto.setPhoneNumber(user.getPhoneNumber());
         dto.setSendMessage(user.getSendMessage());
         dto.setUserNumber(user.getUserNumber());
+        dto.setEmail(user.getEmail());
 
         Set<RoleDTO> roles = user.getRoles().stream().map(roleConverter::entityToDto).collect(Collectors.toSet());
         dto.setRoles(roles);
@@ -46,6 +53,7 @@ public class UserToUserDtoConverter {
         user.setPhoneNumber(dto.getPhoneNumber());
         user.setSendMessage(dto.getSendMessage());
         user.setUserNumber(dto.getUserNumber());
+        user.setEmail(dto.getEmail());
 
         Set<Role> roles = dto.getRoles().stream()
                 .map((RoleDTO roleDTO) -> roleRepository.findRoleByName(roleDTO.getName()).orElseThrow())
