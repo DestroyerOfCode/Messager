@@ -2,12 +2,15 @@ package com.marius.converter.common;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Component
 public class KelvinToCelsiusConverter {
 
     public KelvinToCelsiusConverter(){}
 
-    public Double convertKelvinToCelsius(Double kelvin) {
-        return kelvin - 273.15D;
+    public BigDecimal convertKelvinToCelsius(Double kelvin) {
+        return new BigDecimal(kelvin - 273.15D).setScale(2, RoundingMode.HALF_UP);
     }
 }

@@ -1,7 +1,7 @@
 twilio:
-  account_sid: 1
-  auth_token: 1
-  trial_number: 1
+  account_sid: ACdd1e295e9cb406d65b8344d834ee1234
+  auth_token: 058de2cfb6a25aaa8b02d0d0f2271031
+  trial_number: +19862346916
 server:
   port: 8081
 weather_app:

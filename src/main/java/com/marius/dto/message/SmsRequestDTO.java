@@ -14,19 +14,19 @@ public class SmsRequestDTO {
     private final String phoneNumber; // destination
 
     @NotBlank
-    private final String message;
+    private final String cityName;
 
     public SmsRequestDTO(@JsonProperty("phoneNumber") String phoneNumber,
-                         @JsonProperty("message") String message) {
+                         @JsonProperty("cityName") String cityName) {
         this.phoneNumber = phoneNumber;
-        this.message = message;
+        this.cityName = cityName;
     }
 
     @Override
     public String toString() {
-        return "SmsRequest{" +
-                "phoneNumber= ..." + '\'' +
-                ", message='" + message + '\'' +
+        return "SmsRequestDTO{" +
+                "phoneNumber='" + phoneNumber + '\'' +
+                ", cityName='" + cityName + '\'' +
                 '}';
     }
 }

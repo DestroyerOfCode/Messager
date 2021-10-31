@@ -2,6 +2,8 @@ package com.marius.dto.weather;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,5 +12,7 @@ import lombok.*;
 public class WeatherDTO {
 
     private String cityName;
-    private Double temperature;
+    private BigDecimal temperature;
+    private BigDecimal lat;
+    private BigDecimal lon;
 }

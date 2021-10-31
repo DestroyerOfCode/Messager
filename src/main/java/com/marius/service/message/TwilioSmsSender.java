@@ -43,14 +43,19 @@ public class TwilioSmsSender implements SmsSender {
             PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
             PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
 
-            List<WeatherDTO> weatherDTO = weatherService.getCurrentWeather();
+            WeatherDTO weatherDTO = weatherService.getWeatherByCity(smsRequest.getCityName());
+            List<WeatherDTO> weatherForecastDTO = weatherService.getDailyForecast(weatherDTO.getLat(), weatherDTO.getLon(),
+                    weatherDTO.getCityName());
             List<UserDTO> users = userService.getUsers();
 
-            users.forEach((user) -> {
+            users.stream().filter(UserDTO::getSendMessage).forEach((user) -> {
                 try {
-                    WeatherDTO weather = weatherDTO.stream().filter((w) -> w.getCityName().equals(user.getCityName()) &&
-                            user.getSendMessage()).findFirst().orElseThrow();
-                    MessageCreator creator = Message.creator(to, from, weatherLogic.createMessageOfSmsToSend(weather));
+                    MessageCreator creator = Message.creator(to,
+                            from,
+                            weatherLogic.createMessageOfForecastWeatherSmsToSend(weatherForecastDTO,
+                                    smsRequest.getCityName()
+                            )
+                    );
                     creator.create();
                 } catch (NoSuchElementException e) {
                     LOGGER.error("user not found", e);
