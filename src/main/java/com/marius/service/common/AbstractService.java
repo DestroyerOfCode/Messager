@@ -44,7 +44,7 @@ public abstract class AbstractService<Entity extends BaseEntity, DTO extends Bas
                 updatedEntity = entity.get();
                 mapper.updateValue(updatedEntity, patchValues);
                 baseRepository.save(updatedEntity);
-                LOGGER.info("Patched entity of type {} with id: {}", entityCLass.toString(), id);
+                LOGGER.info("Patched entity of type {} with id: {}", entityCLass, id);
             }
         } catch (JsonMappingException e) {
             LOGGER.error("Error patching entity of type {} with id: {}", entityCLass, id);
@@ -60,7 +60,7 @@ public abstract class AbstractService<Entity extends BaseEntity, DTO extends Bas
         if (entity.isPresent()) {
             deletedEntity = entity.get();
             baseRepository.delete(deletedEntity);
-            LOGGER.info("deleted entity of type {} with id: {}", entityCLass.toString(), id);
+            LOGGER.info("deleted entity of type {} with id: {}", entityCLass, id);
             return mapper.convertValue(deletedEntity, dtoClass);
         }
 

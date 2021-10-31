@@ -89,7 +89,7 @@ public class UserLogic {
                 .id(userDetails.getUser().get_id())
                 .userName(userDetails.getUser().getUserName())
                 .phoneNumber(userDetails.getUser().getPhoneNumber())
-                .roles(userDetails.getUser().getRoles())
+                .sendMessage(userDetails.getUser().getSendMessage())
                 .build();
     }
 

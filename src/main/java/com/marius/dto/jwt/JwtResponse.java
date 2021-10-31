@@ -1,11 +1,8 @@
 package com.marius.dto.jwt;
 
-import com.marius.model.domain.role.Role;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 @Component
 @Getter
@@ -19,5 +16,5 @@ public class JwtResponse {
     private ObjectId id;
     private String userName;
     private String phoneNumber;
-    private Set<Role> roles;
+    private Boolean sendMessage;
 }

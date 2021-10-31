@@ -33,19 +33,19 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> users = userService.getUsers();
-        if (null != users  && !users.isEmpty())
+        if (null != users && !users.isEmpty())
             return new ResponseEntity<>(users, HttpStatus.OK);
-        return  new ResponseEntity<>(users, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(users, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/userId/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUserById(@PathVariable(value = "userId") String userId) {
         Optional<User> userOptional = userService.getUser(userId);
         return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.FOUND))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(value = "/{userName}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{userName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUserByName(@PathVariable(value = "userName") String userName) {
         Optional<User> userOptional = userService.getUserByUserName(userName);
         return userOptional.map(user -> new ResponseEntity<>(converter.entityToDto(user), HttpStatus.OK))
@@ -60,7 +60,7 @@ public class UserController {
 
     @PatchMapping(value = "/{userName}")
     public ResponseEntity<UserDTO> patchUser(@RequestBody Map<String, Object> patchValues,
-                                              @PathVariable("userName") String userName) {
+                                             @PathVariable("userName") String userName) {
         UserDTO patchedUserDto = userService.patchUser(userName, patchValues);
         return new ResponseEntity<>(patchedUserDto, HttpStatus.CREATED);
     }
