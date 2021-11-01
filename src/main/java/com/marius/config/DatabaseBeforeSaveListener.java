@@ -32,6 +32,10 @@ public class DatabaseBeforeSaveListener extends AbstractMongoEventListener<Objec
 
     // this must be here in case you are creating a user, cause no logged in user is required for that
     private String getUserName(Authentication authentication) {
+        if (authentication == null) {
+            return "anonymous";
+        }
+
         return authentication.getPrincipal() instanceof String ? (String) authentication.getPrincipal()
                 : ((CustomUserDetails) authentication.getPrincipal()).getUser().getUserName();
     }

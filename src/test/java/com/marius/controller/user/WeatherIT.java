@@ -4,6 +4,7 @@ import com.marius.controller.weather.WeatherController;
 import com.marius.dto.weather.WeatherDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +29,7 @@ public class WeatherIT {
     void setUp() {
     }
 
+    @Disabled
     @Test
     void getWeatherForecast() {
         List<WeatherDTO> forecastWeathers = new ArrayList<>();
@@ -40,6 +42,8 @@ public class WeatherIT {
 
         Assertions.assertNotNull(forecastWeathers);
     }
+
+    @Disabled
     @Test
     void getWeatherByCity() {
         WeatherDTO weatherDTO = new WeatherDTO();
