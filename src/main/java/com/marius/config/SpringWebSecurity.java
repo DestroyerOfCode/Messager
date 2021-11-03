@@ -95,7 +95,7 @@ public class SpringWebSecurity extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 
-        config.addAllowedOrigin("https://weather-messager-api.herokuapp.com/user/auth/create");
+        config.addAllowedOrigin("https://tvoje-pocasie.herokuapp.com/");
         config.addAllowedOrigin("https://weather-messager-api.herokuapp.com/user/**");
         config.addAllowedOrigin("http://localhost:3000");
 
