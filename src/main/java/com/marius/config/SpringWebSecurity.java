@@ -62,7 +62,7 @@ public class SpringWebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/user/auth/**").permitAll()
                 .antMatchers("/health").permitAll()
-                .antMatchers("/send").permitAll()
+                .antMatchers("/sms/send").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 ;
