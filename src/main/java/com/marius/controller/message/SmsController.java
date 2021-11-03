@@ -23,7 +23,7 @@ public class SmsController{
     }
 
     @PostMapping(path = "/send")
-    @Scheduled(cron = "@daily")
+    @Scheduled(cron = "0 0 0 1/1 * ? *")
     public void sendSms(@Valid @RequestBody SmsRequestDTO dto) {
         smsService.sendSms(dto);
     }

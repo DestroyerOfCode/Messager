@@ -62,6 +62,7 @@ public class SpringWebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/user/auth/**").permitAll()
                 .antMatchers("/health").permitAll()
+                .antMatchers("/send").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 ;
@@ -100,8 +101,7 @@ public class SpringWebSecurity extends WebSecurityConfigurerAdapter {
         config.addAllowedOrigin("http://localhost:3000");
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"));
-        config.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization",
-                "Access-Control-Allow-Origin", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers"));
+        config.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization"));
 
         source.registerCorsConfiguration("/**", config);
 
