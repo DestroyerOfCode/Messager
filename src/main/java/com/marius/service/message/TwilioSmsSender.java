@@ -2,7 +2,6 @@ package com.marius.service.message;
 
 import com.marius.businesslogic.weather.WeatherLogic;
 import com.marius.config.TwilioConfig;
-import com.marius.dto.message.SmsRequestDTO;
 import com.marius.dto.user.UserDTO;
 import com.marius.dto.weather.WeatherDTO;
 import com.marius.service.user.UserService;
@@ -38,37 +37,32 @@ public class TwilioSmsSender implements SmsSender {
     }
 
     @Override
-    public void sendSms(SmsRequestDTO smsRequest) {
-        if (isPhoneNumberValid(smsRequest.getPhoneNumber())) {
-            PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
-            PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
+    public void sendSms() {
+        PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
 
-            WeatherDTO weatherDTO = weatherService.getWeatherByCity(smsRequest.getCityName());
-            List<WeatherDTO> weatherForecastDTO = weatherService.getDailyForecast(weatherDTO.getLat(), weatherDTO.getLon(),
-                    weatherDTO.getCityName());
-            List<UserDTO> users = userService.getUsers();
+        List<UserDTO> users = userService.getUsers();
 
-            users.stream().filter(UserDTO::getSendMessage).forEach((user) -> {
-                try {
-                    MessageCreator creator = Message.creator(to,
-                            from,
-                            weatherLogic.createMessageOfForecastWeatherSmsToSend(weatherForecastDTO,
-                                    smsRequest.getCityName()
-                            )
-                    );
-                    creator.create();
-                } catch (NoSuchElementException e) {
-                    LOGGER.error("user not found", e);
-                }
-            });
+        users.stream().filter(UserDTO::getSendMessage).forEach((user) -> {
+            try {
+                PhoneNumber to = new PhoneNumber(user.getPhoneNumber());
+                WeatherDTO weatherDTO = weatherService.getWeatherByCity(user.getCityName());
+                List<WeatherDTO> weatherForecastDTO = weatherService.getDailyForecast(weatherDTO.getLat(),
+                        weatherDTO.getLon(),
+                        weatherDTO.getCityName()
+                );
 
+                MessageCreator creator = Message.creator(to,
+                        from,
+                        weatherLogic.createMessageOfForecastWeatherSmsToSend(weatherForecastDTO,
+                                user.getCityName()
+                        )
+                );
 
-            LOGGER.info("Sent sms {}", smsRequest);
-        } else {
-            throw new IllegalArgumentException(
-                    String.format( "Phone number [%s] is not a valid number", smsRequest.getPhoneNumber())
-            );
-        }
+                creator.create();
+            } catch (NoSuchElementException e) {
+                LOGGER.error("user not found", e);
+            }
+        });
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

@@ -1,6 +1,5 @@
 package com.marius.service.message;
 
-import com.marius.dto.message.SmsRequestDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +11,7 @@ public class SmsService {
         this.smsSender = smsSender;
     }
 
-    public void sendSms(SmsRequestDTO dto) {
-        smsSender.sendSms(dto);
+    public void sendSms() {
+        smsSender.sendSms();
     }
 }

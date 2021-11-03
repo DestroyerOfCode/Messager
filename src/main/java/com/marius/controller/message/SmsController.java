@@ -1,15 +1,11 @@
 package com.marius.controller.message;
 
-import com.marius.dto.message.SmsRequestDTO;
 import com.marius.service.message.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/sms")
@@ -24,7 +20,7 @@ public class SmsController{
 
     @PostMapping(path = "/send")
     @Scheduled(cron = "0 0 0 1/1 * ? *")
-    public void sendSms(@Valid @RequestBody SmsRequestDTO dto) {
-        smsService.sendSms(dto);
+    public void sendSms() {
+        smsService.sendSms();
     }
 }

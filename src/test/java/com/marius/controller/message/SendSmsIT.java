@@ -1,6 +1,5 @@
 package com.marius.controller.message;
 
-import com.marius.dto.message.SmsRequestDTO;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,7 @@ public class SendSmsIT {
     @Disabled
     @Test
     void sendSmsWithForecast() {
-        smsController.sendSms(createSmsRequestDTO());
+        smsController.sendSms();
     }
 
-    private SmsRequestDTO createSmsRequestDTO() {
-
-        SmsRequestDTO smsRequestDTO = new SmsRequestDTO("+421950898744",  "Nitra");
-        return smsRequestDTO;
-    }
 }
